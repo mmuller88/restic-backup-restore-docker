@@ -9,7 +9,7 @@ PWD=$(pwd)
 docker run --rm -v ${PWD}:/local openapitools/openapi-generator-cli generate \
 -i https://raw.githubusercontent.com/mmuller88/restic-backup-restore-docker/master/restic.yaml \
 -g go-server \
--o ${PWD}/server
+-o local/server
 # –skip-validate-spec
 # -g k6
 ```

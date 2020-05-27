@@ -102,7 +102,6 @@ components:
               example: admin
     userId:
       additionalProperties: false
-      # default: alfresco
       type: string
       description: Simple user name. Please use your user name from the system.
       example: martin
@@ -127,4 +126,3 @@ components:
         - stopped
         - pending
         - stopping
-      # default: running

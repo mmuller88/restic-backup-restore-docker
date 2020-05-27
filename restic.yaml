@@ -5,16 +5,15 @@ info:
     ...
   version: "2020-04-04T07:24:59Z"
 paths:
-  /instances:
+  /snapshots:
     get:
-      tags:
-        - instances
-      operationId: getInstances
+      # tags:
+      #   - instances
+      operationId: getSnapshots
       description: |
-        Gets details about all running Alfresco instances. Notice as there is no permission context implemented yet you can view all / specific instances with leaving out the userId parameter oder take a userId from another user.
-      parameters:
-        - $ref: '#/components/parameters/userIdQueryParam'
-      x-amazon-apigateway-request-validator: "Validator"
+        List all snapshots
+      # parameters:
+      #   - $ref: '#/components/parameters/userIdQueryParam'
       responses:
         200:
           description: |
@@ -22,107 +21,103 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/InstanceList'
-        401:
-          description: Authorization information is missing or invalid
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/AuthError'
-components:
-  parameters:
-    userIdQueryParam:
-      in: query
-      name: userId
-      description: User id Query Parameter. Please use you user name from the system.
-      required: false
-      schema:
-        $ref: '#/components/schemas/userId'
-  schemas:
-    Error:
-      required:
-        - message
-      properties:
-        message:
-          type: string
-    FoundError:
-      required:
-        - message
-      properties:
-        message:
-          type: string
-          example: Not Found
-    AuthError:
-      required:
-        - message
-      properties:
-        message:
-          type: string
-          example: Unauthorized
-    ValidationError:
-      required:
-        - message
-        - validationErrors
-      properties:
-        message:
-          type: string
-          example: Invalid request body
-        validationErrors:
-          type: string
-          example: '[instance value ("terminatedd") not found in enum (possible values: ["running","terminated","stopped"])]'
-    InstanceList:
-      additionalProperties: false
-      type: array
-      items:
-        $ref: '#/components/schemas/Instance'
-    Instance:
-      additionalProperties: false
-      type: object
-      required:
-        - alfInstanceId
-        - status
-        - adminCredentials
-      properties:
-        alfInstanceId:
-          $ref: '#/components/schemas/alfInstanceId'
-        status:
-          $ref: '#/components/schemas/status'
-        adminCredentials:
-          additionalProperties: false
-          type: object
-          required:
-            - userName
-            - password
-          properties:
-            userName:
-              type: string
-              example: admin
-            password:
-              type: string
-              example: admin
-    userId:
-      additionalProperties: false
-      type: string
-      description: Simple user name. Please use your user name from the system.
-      example: martin
-      pattern: "[a-zA-Z0-9]{2,64}"
-      minLength: 2
-      maxLength: 64
-    alfInstanceId:
-      additionalProperties: false
-      type: string
-      description: User Instance Identifier created with node uuid
-      pattern: "[a-z0-9]{4,4}"
-      example: 'ew2m'
-      minLength: 4
-      maxLength: 4
-    status:
-      additionalProperties: false
-      type: string
-      description: Shows the current state. Even if your instance is in the running state it might take some minutes until the provided url is reachable.
-      enum:
-        - running
-        - terminated
-        - stopped
-        - pending
-        - stopping
+                type: string
+              # schema:
+              #   $ref: '#/components/schemas/SnapShotL'
+        # 401:
+        #   description: Authorization information is missing or invalid
+        #   content:
+        #     application/json:
+        #       schema:
+        #         $ref: '#/components/schemas/AuthError'
+# components:
+#   parameters:
+#     userIdQueryParam:
+#       in: query
+#       name: userId
+#       description: User id Query Parameter. Please use you user name from the system.
+#       required: false
+#       schema:
+#         $ref: '#/components/schemas/userId'
+#   schemas:
+#     Error:
+#       required:
+#         - message
+#       properties:
+#         message:
+#           type: string
+#     FoundError:
+#       required:
+#         - message
+#       properties:
+#         message:
+#           type: string
+#           example: Not Found
+#     AuthError:
+#       required:
+#         - message
+#       properties:
+#         message:
+#           type: string
+#           example: Unauthorized
+#     ValidationError:
+#       required:
+#         - message
+#         - validationErrors
+#       properties:
+#         message:
+#           type: string
+#           example: Invalid request body
+#         validationErrors:
+#           type: string
+#           example: '[instance value ("terminatedd") not found in enum (possible values: ["running","terminated","stopped"])]'
+#     InstanceList:
+#       additionalProperties: false
+#       type: array
+#       items:
+#         $ref: '#/components/schemas/Instance'
+#     Instance:
+#       additionalProperties: false
+#       type: object
+#       required:
+#         - alfInstanceId
+#         - status
+#         - adminCredentials
+#       properties:
+#         alfInstanceId:
+#           $ref: '#/components/schemas/alfInstanceId'
+#         status:
+#           $ref: '#/components/schemas/status'
+#         adminCredentials:
+#           additionalProperties: false
+#           type: object
+#           required:
+#             - userName
+#             - password
+#           properties:
+#             userName:
+#               type: string
+#               example: admin
+#             password:
+#               type: string
+#               example: admin
+#     userId:
+#       additionalProperties: false
+#       type: string
+#       description: Simple user name. Please use your user name from the system.
+#       example: martin
+#       pattern: "[a-zA-Z0-9]{2,64}"
+#       minLength: 2
+#       maxLength: 64
+#     alfInstanceId:
+#       additionalProperties: false
+#       type: string
+#       description: User Instance Identifier created with node uuid
+#       pattern: "[a-z0-9]{4,4}"
+#       example: 'ew2m'
+#       minLength: 4
+#       maxLength: 4
+#     status:
+#       additionalProperties: false
+#       type: string
+#       description: Shows the current state. Even if your instance is in the running state it might take some minutes until the provided url is reachable.

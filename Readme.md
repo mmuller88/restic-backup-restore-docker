@@ -12,6 +12,8 @@ docker run --rm -v ${PWD}:/local openapitools/openapi-generator-cli generate \
 -o local/server
 # –skip-validate-spec
 # -g k6
+
+mmuller88/restic-backup-restore-docker
 ```
 
 ## Environment variables

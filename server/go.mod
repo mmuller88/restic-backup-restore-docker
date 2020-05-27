@@ -1,4 +1,4 @@
-module github.com/mmuller88/restic-backup-restore-docker
+module github.com/mmuller88/restic-backup-restore-docker/server
 
 go 1.13
 

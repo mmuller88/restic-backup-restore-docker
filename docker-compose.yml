@@ -2,18 +2,17 @@
 version: "2"
 
 services:
-
-    restic:
-      image: .
-      environment:
-        RESTIC_PASSWORD: test
-        RESTIC_TAG: test
-        RESTIC_FORGET_ARGS: '--keep-last 10'
-        BACKUP_CRON: '* * * * *'
-        MAILX_ARGS: ''
-        # RESTIC_REPOSITORY: '' S3 here
-        # AWS_ACCESS_KEY_ID: ''
-        # AWS_SECRET_ACCESS_KEY: ''
-      volumes:
-        - ./data:/data
-        - ./test-repo/:/mnt/restic
+  restic:
+    build: .
+    environment:
+      RESTIC_PASSWORD: test
+      RESTIC_TAG: test
+      RESTIC_FORGET_ARGS: '--keep-last 10'
+      BACKUP_CRON: '* * * * *'
+      # MAILX_ARGS: ''
+      # RESTIC_REPOSITORY: '' S3 here
+      # AWS_ACCESS_KEY_ID: ''
+      # AWS_SECRET_ACCESS_KEY: ''
+    volumes:
+      - ./data:/data
+      - ./test-repo/:/mnt/restic

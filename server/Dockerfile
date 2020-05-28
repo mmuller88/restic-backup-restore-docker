@@ -1,14 +1,7 @@
-FROM golang:1.10 AS build
-WORKDIR /go/src
-COPY go ./go
-COPY main.go .
+FROM openjdk:8-jre-alpine
 
-ENV CGO_ENABLED=0
-RUN go get -d -v ./...
+COPY ./build/libs/kotlin-server.jar /root/kotlin-server.jar
 
-RUN go build -a -installsuffix cgo -o openapi .
+WORKDIR /root
 
-FROM scratch AS runtime
-COPY --from=build /go/src/openapi ./
-EXPOSE 8080/tcp
-ENTRYPOINT ["./openapi"]
+CMD ["java", "-server", "-Xms4g", "-Xmx4g", "-XX:+UseG1GC", "-XX:MaxGCPauseMillis=100", "-XX:+UseStringDeduplication", "-jar", "kotlin-server.jar"]

@@ -7,8 +7,8 @@ This are the instructions to create the server out from the swagger file
 ```BASH
 PWD=$(pwd)
 docker run --rm -v ${PWD}:/local openapitools/openapi-generator-cli generate \
--i https://raw.githubusercontent.com/mmuller88/restic-backup-restore-docker/master/restic.yaml \
--g go-server \
+-i /local/restic.yaml \
+-g kotlin-server \
 -o local/server
 # –skip-validate-spec
 # -g k6

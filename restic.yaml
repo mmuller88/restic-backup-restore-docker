@@ -3,7 +3,9 @@ info:
   title: "Restic Restore Server"
   description: |
     ...
-  version: "2020-04-04T07:24:59Z"
+  version: 1.0.0
+servers:
+  - url: http://server:80
 paths:
   /snapshots:
     get:

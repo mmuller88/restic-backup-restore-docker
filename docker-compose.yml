@@ -2,17 +2,32 @@
 version: "2"
 
 services:
-  restic:
-    build: .
+  # restic:
+  #   build: .
+  #   environment:
+  #     RESTIC_PASSWORD: test
+  #     RESTIC_TAG: test
+  #     RESTIC_FORGET_ARGS: '--keep-last 10'
+  #     BACKUP_CRON: '* * * * *'
+  #     # MAILX_ARGS: ''
+  #     # RESTIC_REPOSITORY: '' S3 here
+  #     # AWS_ACCESS_KEY_ID: ''
+  #     # AWS_SECRET_ACCESS_KEY: ''
+  #   volumes:
+  #     - ./data:/data
+  #     - ./test-repo/:/mnt/restic
+
+  server:
+    build: server
+    ports:
+      - "81:8080"
+
+  explorer:
+    image: swaggerapi/swagger-ui:v3.25.4
     environment:
-      RESTIC_PASSWORD: test
-      RESTIC_TAG: test
-      RESTIC_FORGET_ARGS: '--keep-last 10'
-      BACKUP_CRON: '* * * * *'
-      # MAILX_ARGS: ''
-      # RESTIC_REPOSITORY: '' S3 here
-      # AWS_ACCESS_KEY_ID: ''
-      # AWS_SECRET_ACCESS_KEY: ''
+      BASE_URL: /swagger
+      SWAGGER_JSON: /foo/restic.yaml
+    ports:
+      - "80:8080"
     volumes:
-      - ./data:/data
-      - ./test-repo/:/mnt/restic
+      - ./restic.yaml:/foo/restic.yaml

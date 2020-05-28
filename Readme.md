@@ -8,12 +8,13 @@ This are the instructions to create the server out from the swagger file
 PWD=$(pwd)
 docker run --rm -v ${PWD}:/local openapitools/openapi-generator-cli generate \
 -i https://raw.githubusercontent.com/mmuller88/restic-backup-restore-docker/master/restic.yaml \
--g go \
+-g go-server \
 -o local/server
 # –skip-validate-spec
 # -g k6
 
-mmuller88/restic-backup-restore-docker
+find . -type f -exec sed -i '' 's#mmuller88/restic-backup-restore-docker#mmuller88/restic-backup-restore-docker#g' {} +
+LC_ALL=C find . -type f -name '*.txt' -exec sed -i '' s#mmuller88/restic-backup-restore-docker#mmuller88/restic-backup-restore-docker# {} +
 ```
 
 ## Environment variables

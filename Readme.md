@@ -2,12 +2,14 @@
 A Docker Image for backuping files with restic and restoring them with a go server created with openApi
 
 # View and test the API
-(Assuming no changes were made to config.js)
+1. Run the Docker Compose file with
+```BASH
+docker-compose up --build
+```
+2. API documentation, and to check the available endpoints:
+http://localhost:80/api-doc
 
-1. API documentation, and to check the available endpoints:
-http://localhost:3000/api-doc
-
-# Create Go Server
+# Create JS Server
 This are the instructions to create the server out from the swagger file
 
 ```BASH
@@ -17,11 +19,6 @@ docker run --rm -v ${PWD}:/local openapitools/openapi-generator-cli generate \
 -g nodejs-express-server \
 -o local/server \
 -s 
-# –skip-validate-spec
-# -g k6
-
-find . -type f -exec sed -i '' 's#mmuller88/restic-backup-restore-docker#mmuller88/restic-backup-restore-docker#g' {} +
-LC_ALL=C find . -type f -name '*.txt' -exec sed -i '' s#mmuller88/restic-backup-restore-docker#mmuller88/restic-backup-restore-docker# {} +
 ```
 
 ## Environment variables
@@ -60,3 +57,6 @@ Now you can simply specify the restic repository to be an [SFTP repository](http
 ## Backup via rclone
 
 To use rclone as a backend for restic, simply add the rclone config file as a volume with `-v /absolute/path/to/rclone.conf:/root/.config/rclone/rclone.conf`.
+
+## Future ideas
+* For more control about the backup process itself we could use https://github.com/restic/rest-server . But as it simply for the backup process but not for the restoring it isn't that mach valueable right now.

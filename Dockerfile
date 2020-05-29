@@ -33,6 +33,7 @@ COPY entry.sh .
 RUN chmod +x /usr/src/app/entry.sh
 
 COPY server .
+COPY handlers handlers
 
 RUN npm install
 

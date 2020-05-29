@@ -20,6 +20,6 @@ paths:
                 type: string
           description: |
             The urls will be available after about 3 minutes.
-      x-eov-operation-handler: controllers/DefaultController
+      x-eov-operation-handler: handlers/DefaultController
 components:
   schemas: {}

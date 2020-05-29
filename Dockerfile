@@ -1,14 +1,7 @@
-# FROM alpine:latest as rclone
-
-# # Get rclone executable
-# ADD https://downloads.rclone.org/rclone-current-linux-amd64.zip /
-# RUN unzip rclone-current-linux-amd64.zip && mv rclone-*-linux-amd64/rclone /bin/rclone && chmod +x /bin/rclone
-
 FROM restic/restic:0.9.6 as restic
 
 FROM node:10-alpine
 
-# COPY --from=rclone /bin/rclone /bin/rclone
 COPY --from=restic /usr/bin/restic /usr/bin/restic
 
 ADD https://downloads.rclone.org/rclone-current-linux-amd64.zip /

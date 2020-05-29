@@ -1,6 +1,12 @@
 # restic-backup-restore-docker
 A Docker Image for backuping files with restic and restoring them with a go server created with openApi
 
+# View and test the API
+(Assuming no changes were made to config.js)
+
+1. API documentation, and to check the available endpoints:
+http://localhost:3000/api-doc
+
 # Create Go Server
 This are the instructions to create the server out from the swagger file
 
@@ -8,8 +14,9 @@ This are the instructions to create the server out from the swagger file
 PWD=$(pwd)
 docker run --rm -v ${PWD}:/local openapitools/openapi-generator-cli generate \
 -i /local/restic.yaml \
--g kotlin-server \
--o local/server
+-g nodejs-express-server \
+-o local/server \
+-s 
 # –skip-validate-spec
 # -g k6
 

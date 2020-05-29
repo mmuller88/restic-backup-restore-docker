@@ -2,45 +2,47 @@
 version: "2"
 
 services:
-  # restic:
-  #   build: .
-  #   environment:
-  #     RESTIC_PASSWORD: test
-  #     RESTIC_TAG: test
-  #     RESTIC_FORGET_ARGS: '--keep-last 10'
-  #     BACKUP_CRON: '* * * * *'
-  #     # MAILX_ARGS: ''
-  #     # RESTIC_REPOSITORY: '' S3 here
-  #     # AWS_ACCESS_KEY_ID: ''
-  #     # AWS_SECRET_ACCESS_KEY: ''
-  #   volumes:
-  #     - ./data:/data
-  #     - ./test-repo/:/mnt/restic
-
-  server:
-    build: server
-    # ports:
-    #   - "81:8080"
-
-  swagger:
-    depends_on:
-      - server
-    image: swaggerapi/swagger-ui:v3.25.4
+  restic:
+    build: .
     environment:
-      BASE_URL: /swagger
-      SWAGGER_JSON: /foo/restic.yaml
-    # ports:
-    #   - "80:8080"
+      RESTIC_PASSWORD: test
+      RESTIC_TAG: test
+      RESTIC_FORGET_ARGS: '--keep-last 10'
+      BACKUP_CRON: '* * * * *'
+      # MAILX_ARGS: ''
+      # RESTIC_REPOSITORY: '' S3 here
+      # AWS_ACCESS_KEY_ID: ''
+      # AWS_SECRET_ACCESS_KEY: ''
     volumes:
-      - ./restic.yaml:/foo/restic.yaml
-
-  proxy:
-    image: nginx:stable-alpine
-    mem_limit: 128m
-    depends_on:
-      - swagger
-      - server
-    volumes:
-      - ./nginx.conf:/etc/nginx/nginx.conf
+      - ./data:/data
+      - ./test-repo/:/mnt/restic
     ports:
-      - 80:80
+      - "80:3000"
+
+  # server:
+  #   build: .
+  #   ports:
+  #     - "80:3000"
+
+  # swagger:
+  #   depends_on:
+  #     - server
+  #   image: swaggerapi/swagger-ui:v3.25.4
+  #   environment:
+  #     BASE_URL: /swagger
+  #     SWAGGER_JSON: /foo/restic.yaml
+  #   # ports:
+  #   #   - "80:8080"
+  #   volumes:
+  #     - ./restic.yaml:/foo/restic.yaml
+
+  # proxy:
+  #   image: nginx:stable-alpine
+  #   mem_limit: 128m
+  #   depends_on:
+  #     - swagger
+  #     - server
+  #   volumes:
+  #     - ./nginx.conf:/etc/nginx/nginx.conf
+  #   ports:
+  #     - 80:80

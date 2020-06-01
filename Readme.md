@@ -13,12 +13,13 @@ http://localhost:80/api-doc
 This are the instructions to create the server out from the swagger file
 
 ```BASH
-PWD=$(pwd)
-docker run --rm -v ${PWD}:/local openapitools/openapi-generator-cli generate \
--i /local/restic.yaml \
--g nodejs-express-server \
--o local/server \
--s 
+./build_server.sh
+```
+
+## Endpoints
+The defined Endpoints in restic.yaml need to point to there handlers like:
+```
+x-eov-operation-handler: handlers/DefaultController
 ```
 
 ## Environment variables

@@ -12,7 +12,12 @@ const getSnapshots = async (request, response) => {
   await Controller.handleRequest(request, response, service.getSnapshots);
 };
 
+const restoreSnapshot = async (request, response) => {
+  await Controller.handleRequest(request, response, service.restoreSnapshot);
+};
+
 
 module.exports = {
   getSnapshots,
+  restoreSnapshot,
 };

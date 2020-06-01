@@ -9,28 +9,15 @@
 const Controller = require('./Controller');
 const service = require('./DefaultService');
 const getSnapshots = async (request, response) => {
-
   await Controller.handleRequest(request, response, service.getSnapshots);
 };
 
-/**
- * Execute simple shell command (async wrapper).
- * @param {String} cmd
- * @return {Object} { stdout: String, stderr: String }
- */
-async function sh(cmd) {
-  return new Promise(function (resolve, reject) {
-    cp.exec(cmd, (err, stdout, stderr) => {
-      if (err) {
-        reject(err);
-      } else {
-        resolve({ stdout, stderr });
-      }
-    });
-  });
-}
+const restoreSnapshot = async (request, response) => {
+  await Controller.handleRequest(request, response, service.restoreSnapshot);
+};
 
 
 module.exports = {
   getSnapshots,
+  restoreSnapshot,
 };

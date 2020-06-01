@@ -17,9 +17,129 @@ paths:
           content:
             application/json:
               schema:
-                type: string
+                $ref: '#/components/schemas/SnapshotList'
           description: |
-            The urls will be available after about 3 minutes.
+            List all available snapshots
+      x-eov-operation-handler: handlers/DefaultController
+  /snapshots/{shortId}/restore:
+    get:
+      description: |
+        Executes an restore based on the **short_id**
+      operationId: restoreSnapshot
+      parameters:
+      - description: Snapshot id Query Parameter.
+        explode: true
+        in: query
+        name: shortId
+        required: true
+        schema:
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SnapshotList'
+          description: |
+            Snapshot restored successfully
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FoundError'
+          description: |
+            Snapshot id not found
       x-eov-operation-handler: handlers/DefaultController
 components:
-  schemas: {}
+  parameters:
+    shortIdParam:
+      description: Snapshot id Query Parameter.
+      explode: true
+      in: query
+      name: shortId
+      required: true
+      schema:
+        type: string
+      style: form
+  schemas:
+    Error:
+      properties:
+        message:
+          type: string
+      required:
+      - message
+    FoundError:
+      properties:
+        message:
+          example: Not Found
+          type: string
+      required:
+      - message
+    SnapshotList:
+      additionalProperties: false
+      items:
+        $ref: '#/components/schemas/Snapshot'
+      type: array
+    Snapshot:
+      additionalProperties: false
+      example:
+        hostname: f1520eccaf43
+        paths:
+        - /data
+        - /data
+        tree: b2325742d7eb352315fda12205883d66dacae46601ecc0067d1f0f94f577ac52
+        id: 15051ed1ea1d267c7f82ac0de63c0b1c3eafa4e3b7899f965fd23a50b009b2d6
+        short_id: 15051ed1
+        time: '"2020-05-29T17:49:00.136672148Z'
+        username: root
+        tags:
+        - test
+        - test
+      properties:
+        id:
+          description: ID of the snapshot
+          example: 15051ed1ea1d267c7f82ac0de63c0b1c3eafa4e3b7899f965fd23a50b009b2d6
+          type: string
+        short_id:
+          description: Short ID of the snapshot
+          example: 15051ed1
+          type: string
+        time:
+          description: Time when the snapshot was taken
+          example: '"2020-05-29T17:49:00.136672148Z'
+          type: string
+        username:
+          description: Username of ...
+          example: root
+          type: string
+        hostname:
+          description: The Host ???
+          example: f1520eccaf43
+          type: string
+        tree:
+          description: The Tree ...
+          example: b2325742d7eb352315fda12205883d66dacae46601ecc0067d1f0f94f577ac52
+          type: string
+        tags:
+          description: List of tags
+          items:
+            example: test
+            type: string
+          type: array
+        paths:
+          description: List of tags
+          items:
+            example: /data
+            type: string
+          type: array
+      required:
+      - hostname
+      - id
+      - paths
+      - short_id
+      - tags
+      - time
+      - tree
+      - username
+      type: object

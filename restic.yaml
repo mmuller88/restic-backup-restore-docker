@@ -20,42 +20,61 @@ paths:
       responses:
         200:
           description: |
-            The urls will be available after about 3 minutes.
+            List all available snapshots
           content:
             application/json:
               schema:
-                type: string
-              # schema:
-              #   $ref: '#/components/schemas/SnapShotL'
-        # 401:
-        #   description: Authorization information is missing or invalid
-        #   content:
-        #     application/json:
-        #       schema:
-        #         $ref: '#/components/schemas/AuthError'
-# components:
-#   parameters:
-#     userIdQueryParam:
-#       in: query
-#       name: userId
-#       description: User id Query Parameter. Please use you user name from the system.
-#       required: false
-#       schema:
-#         $ref: '#/components/schemas/userId'
-#   schemas:
-#     Error:
-#       required:
-#         - message
-#       properties:
-#         message:
-#           type: string
-#     FoundError:
-#       required:
-#         - message
-#       properties:
-#         message:
-#           type: string
-#           example: Not Found
+                $ref: '#/components/schemas/SnapshotList'
+  /snapshots/{shortId}/restore:
+    get:
+      # tags:
+      #   - instances
+      operationId: restoreSnapshot
+      parameters:
+        - $ref: '#/components/parameters/shortIdParam'
+      description: |
+        Executes an restore based on the **short_id**
+      x-eov-operation-handler: handlers/DefaultController
+      # parameters:
+      #   - $ref: '#/components/parameters/userIdQueryParam'
+      responses:
+        200:
+          description: |
+            Snapshot restored successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SnapshotList'
+        404:
+          description: |
+            Snapshot id not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FoundError'
+components:
+  parameters:
+    shortIdParam:
+      in: query
+      name: shortId
+      description: Snapshot id Query Parameter.
+      required: true
+      schema:
+        type: string
+  schemas:
+    Error:
+      required:
+        - message
+      properties:
+        message:
+          type: string
+    FoundError:
+      required:
+        - message
+      properties:
+        message:
+          type: string
+          example: Not Found
 #     AuthError:
 #       required:
 #         - message
@@ -74,36 +93,60 @@ paths:
 #         validationErrors:
 #           type: string
 #           example: '[instance value ("terminatedd") not found in enum (possible values: ["running","terminated","stopped"])]'
-#     InstanceList:
-#       additionalProperties: false
-#       type: array
-#       items:
-#         $ref: '#/components/schemas/Instance'
-#     Instance:
-#       additionalProperties: false
-#       type: object
-#       required:
-#         - alfInstanceId
-#         - status
-#         - adminCredentials
-#       properties:
-#         alfInstanceId:
-#           $ref: '#/components/schemas/alfInstanceId'
-#         status:
-#           $ref: '#/components/schemas/status'
-#         adminCredentials:
-#           additionalProperties: false
-#           type: object
-#           required:
-#             - userName
-#             - password
-#           properties:
-#             userName:
-#               type: string
-#               example: admin
-#             password:
-#               type: string
-#               example: admin
+    SnapshotList:
+      additionalProperties: false
+      type: array
+      items:
+        $ref: '#/components/schemas/Snapshot'
+    Snapshot:
+      additionalProperties: false
+      type: object
+      required:
+        - id
+        - short_id
+        - time
+        - username
+        - hostname
+        - tags
+        - tree
+        - paths
+      properties:
+        id:
+          type: string
+          example: 15051ed1ea1d267c7f82ac0de63c0b1c3eafa4e3b7899f965fd23a50b009b2d6
+          description: ID of the snapshot
+        short_id:
+          type: string
+          example: 15051ed1
+          description: Short ID of the snapshot
+        time:
+          type: string
+          example: '"2020-05-29T17:49:00.136672148Z'
+          description: Time when the snapshot was taken
+        username:
+          type: string
+          example: 'root'
+          description: Username of ...
+        hostname:
+          type: string
+          example: 'f1520eccaf43'
+          description: The Host ???
+        tree:
+          type: string
+          description: The Tree ...
+          example: b2325742d7eb352315fda12205883d66dacae46601ecc0067d1f0f94f577ac52
+        tags:
+          type: array
+          description: List of tags
+          items:
+            type: string
+            example: test
+        paths:
+          type: array
+          description: List of tags
+          items:
+            type: string
+            example: /data
 #     userId:
 #       additionalProperties: false
 #       type: string

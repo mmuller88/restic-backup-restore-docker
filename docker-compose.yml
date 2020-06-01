@@ -7,7 +7,7 @@ services:
     environment:
       RESTIC_PASSWORD: test
       RESTIC_TAG: test
-      RESTIC_FORGET_ARGS: '--keep-last 10'
+      RESTIC_FORGET_ARGS: '--prune --keep-last 3 --keep-hourly 24 --keep-daily 7 --keep-weekly 52 --keep-monthly 120 --keep-yearly 10'
       BACKUP_CRON: '* * * * *'
       # MAILX_ARGS: ''
       # RESTIC_REPOSITORY: '' S3 here

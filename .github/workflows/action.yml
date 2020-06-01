@@ -39,4 +39,5 @@ jobs:
       uses: andstor/file-existence-action@v1.0.1
       with:
         files: "./data/abcd.txt"
+        allow_failure: true
 

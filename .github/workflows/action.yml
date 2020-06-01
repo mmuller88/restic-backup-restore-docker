@@ -16,6 +16,11 @@ jobs:
       uses: actions/checkout@v2.1.1
     - name: Setup Node.js environment
       uses: actions/setup-node@v1.4.2
+    - name: abc.txt file existence
+      uses: andstor/file-existence-action@v1.0.1
+      with:
+        files: "./data/abc.txt"
+        allow_failure: true
     - name: Start Restic Server
       run: |
         chmod +x ./build_server.sh && ./build_server.sh && docker-compose up --build -d
@@ -35,9 +40,13 @@ jobs:
         cat tmp/newman/report.json
         docker-compose config
         docker-compose logs
-    - name: File Existence
+    - name: put new File into data
+      if: ${{ failure() }}
+      run: |
+        rm -rf data/abc.txt
+        cp test/cde.txt data
+    - name: cde.txt file existence
       uses: andstor/file-existence-action@v1.0.1
       with:
-        files: "./data/abcd.txt"
-        allow_failure: true
+        files: "./data/cde.txt"
 

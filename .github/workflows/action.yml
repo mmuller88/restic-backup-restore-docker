@@ -10,29 +10,28 @@ jobs:
 
   linux-build:
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: true
 
     steps:
     - name: Checkout
       uses: actions/checkout@v2.1.1
     - name: Setup Node.js environment
       uses: actions/setup-node@v1.4.2
-    - name: Execute start.sh
+    - name: Start Restic Server
       run: |
-        echo 'boing'
-    # - name: Docker Compose deployment has failed
-    #   if: ${{ failure() }}
-    #   run: |
-    #     docker-compose config
-    #     docker-compose logs
-    # - name: Execute Postman Tests
-    #   run: |
-    #     npx newman run test/alf-ec2.postman_collection.json -e test/alf-ec2.postman_environment.json -r cli,json --reporter-json-export tmp/newman/report.json
-    # - name: Postman has failed!
-    #   if: ${{ failure() }}
-    #   run: |
-    #     echo "Postman Failed!"
-    #     cat tmp/newman/report.json
-    #     docker-compose config
-    #     docker-compose logs
+        chmod +x ./build_server && ./build_server.sh && docker-compose up --build -d
+        npx wait-on http://localhost:80/snapshots
+    - name: Docker Compose deployment has failed
+      if: ${{ failure() }}
+      run: |
+        docker-compose config
+        docker-compose logs
+    - name: Execute Postman Tests
+      run: |
+        npx newman run test/ResticRestoreServer.postman_collection.json -e test/alf-ec2.postman_environment.json -r cli,json --reporter-json-export tmp/newman/report.json
+    - name: Postman has failed!
+      if: ${{ failure() }}
+      run: |
+        echo "Postman Failed!"
+        cat tmp/newman/report.json
+        docker-compose config
+        docker-compose logs

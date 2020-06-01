@@ -55,7 +55,7 @@ paths:
 components:
   parameters:
     shortIdParam:
-      in: query
+      in: path
       name: shortId
       description: Snapshot id Query Parameter.
       required: true
@@ -82,17 +82,26 @@ components:
 #         message:
 #           type: string
 #           example: Unauthorized
-#     ValidationError:
-#       required:
-#         - message
-#         - validationErrors
-#       properties:
-#         message:
-#           type: string
-#           example: Invalid request body
-#         validationErrors:
-#           type: string
-#           example: '[instance value ("terminatedd") not found in enum (possible values: ["running","terminated","stopped"])]'
+    ValidationError:
+      required:
+        - message
+        - validationErrors
+      properties:
+        message:
+          type: string
+          example: request.query should have required property 'shortId'
+        errors:
+          type: object
+          properties:
+            path:
+              type: string
+              example: .query.shortId
+            message:
+              type: string
+              example: should have required property 'shortId'
+            errorCode:
+              type: string
+              example: required.openapi.validation
     SnapshotList:
       additionalProperties: false
       type: array

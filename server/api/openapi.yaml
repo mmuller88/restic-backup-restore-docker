@@ -28,13 +28,13 @@ paths:
       operationId: restoreSnapshot
       parameters:
       - description: Snapshot id Query Parameter.
-        explode: true
-        in: query
+        explode: false
+        in: path
         name: shortId
         required: true
         schema:
           type: string
-        style: form
+        style: simple
       responses:
         "200":
           content:
@@ -55,13 +55,13 @@ components:
   parameters:
     shortIdParam:
       description: Snapshot id Query Parameter.
-      explode: true
-      in: query
+      explode: false
+      in: path
       name: shortId
       required: true
       schema:
         type: string
-      style: form
+      style: simple
   schemas:
     Error:
       properties:
@@ -76,6 +76,16 @@ components:
           type: string
       required:
       - message
+    ValidationError:
+      properties:
+        message:
+          example: request.query should have required property 'shortId'
+          type: string
+        errors:
+          $ref: '#/components/schemas/ValidationError_errors'
+      required:
+      - message
+      - validationErrors
     SnapshotList:
       additionalProperties: false
       items:
@@ -143,3 +153,14 @@ components:
       - tree
       - username
       type: object
+    ValidationError_errors:
+      properties:
+        path:
+          example: .query.shortId
+          type: string
+        message:
+          example: should have required property 'shortId'
+          type: string
+        errorCode:
+          example: required.openapi.validation
+          type: string

@@ -35,3 +35,8 @@ jobs:
         cat tmp/newman/report.json
         docker-compose config
         docker-compose logs
+    - name: File Existence
+      uses: andstor/file-existence-action@v1.0.1
+      with:
+        files: "./data/abcd.txt"
+

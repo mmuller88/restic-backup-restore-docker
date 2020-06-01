@@ -1,4 +1,6 @@
-# restic-backup-restore-docker
+![Test Deployment](https://github.com/mmuller88/restic-backup-restore-docker/workflows/Test%20Deployment/badge.svg)
+
+# Restic Backup and Restore Server
 A Docker Image for backuping files with restic and restoring them with a go server created with openApi
 
 # View and test the API

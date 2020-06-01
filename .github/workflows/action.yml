@@ -18,7 +18,7 @@ jobs:
       uses: actions/setup-node@v1.4.2
     - name: Start Restic Server
       run: |
-        chmod +x ./build_server && ./build_server.sh && docker-compose up --build -d
+        chmod +x ./build_server.sh && ./build_server.sh && docker-compose up --build -d
         npx wait-on http-get://localhost:80/snapshots -t 10000 -i 5000 -v
     - name: Docker Compose deployment has failed
       if: ${{ failure() }}

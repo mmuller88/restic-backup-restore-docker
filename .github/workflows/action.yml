@@ -49,4 +49,12 @@ jobs:
       uses: andstor/file-existence-action@v1.0.1
       with:
         files: "./data/cde.txt"
+    - name: Execute Postman Tests for restoring to abc.txt
+      run: |
+        npx newman run test/ResticRestoreServer2.postman_collection.json -r cli,json --reporter-json-export tmp/newman/report2.json
+    - name: abc.txt file existence
+      uses: andstor/file-existence-action@v1.0.1
+      with:
+        files: "./data/abc.txt"
+        allow_failure: true
 

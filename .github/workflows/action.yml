@@ -30,6 +30,17 @@ jobs:
       run: |
         docker-compose config
         docker-compose logs
+    - name: put new File into data
+      # if: ${{ failure() }}
+      run: |
+        sleep 185
+        rm -rf data/abc.txt
+        cp test/cde.txt data
+    - name: cde.txt file existence
+      uses: andstor/file-existence-action@v1.0.1
+      with:
+        files: "./data/cde.txt"
+        allow_failure: true
     - name: Execute Postman Tests
       run: |
         npx newman run test/ResticRestoreServer.postman_collection.json -r cli,json --reporter-json-export tmp/newman/report.json
@@ -40,25 +51,13 @@ jobs:
         cat tmp/newman/report.json
         docker-compose config
         docker-compose logs
-    - name: put new File into data
-      if: ${{ failure() }}
-      run: |
-        rm -rf data/abc.txt
-        cp test/cde.txt data
     - name: cde.txt file existence
-      uses: andstor/file-existence-action@v1.0.1
-      with:
-        files: "./data/cde.txt"
-    - name: Execute Postman Tests for restoring to abc.txt
-      run: |
-        npx newman run test/ResticRestoreServer2.postman_collection.json -r cli,json --reporter-json-export tmp/newman/report2.json
-    - name: abc.txt file existence
       uses: andstor/file-existence-action@v1.0.1
       with:
         files: "./data/abc.txt"
         allow_failure: true
     - name: see which files are there exactly
-      if: ${{ failure() }}
+      # if: ${{ failure() }}
       run: |
         ls -l data
 
